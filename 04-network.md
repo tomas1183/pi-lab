@@ -8,7 +8,9 @@ Configure Raspberry Pi to use a single, stable network interface for consistent 
 ### Step 1 - Review Network Interfaces
 
 Command:
+``` bash
 nmcli connection show
+```
 
 Result:
 Wired connection (eth0) present  
@@ -22,7 +24,9 @@ System is primarily using wired networking.
 ### Step 2 - Verify Interface Status
 
 Command:
+``` bash
 ip -br a
+```
 
 Note:
 Used `ip -br a` for a simplified view of network interfaces.

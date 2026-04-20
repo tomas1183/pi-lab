@@ -102,7 +102,9 @@ Pi-hole and Unbound containers are operational with direct access to the host's 
 ## Step 3 - Verify Container Status
 
 Command:
+``` bash
 docker ps
+```
 
 Result:
 - pihole → running

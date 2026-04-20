@@ -17,7 +17,9 @@ Set up Raspberry Pi 5 with NVMe storage.
 - Verified NVMe detection
 
 ## Verification Command Used
-- lsblk
+```bash
+lsblk
+```
 
 ## Result
 NVMe drive detected successfully as /dev/nvme0n1

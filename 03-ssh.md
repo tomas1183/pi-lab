@@ -34,8 +34,10 @@ Copied the public key and added it to the Raspberry Pi:
 ~/.ssh/authorized_keys
 
 Commands (on Raspberry Pi):
+``` bash
 mkdir -p ~/.ssh
 nano ~/.ssh/authorized_keys
+```
 
 Result:
 Public key successfully added for authentication.
@@ -45,8 +47,10 @@ Public key successfully added for authentication.
 ### Step 3 - Configure Permissions
 
 Commands:
+``` bash
 chmod 700 ~/.ssh
 chmod 600 ~/.ssh/authorized_keys
+```
 
 Result:
 SSH directory and authorized keys file secured with proper permissions.
@@ -71,11 +75,15 @@ Each device's public key was added to:
 ~/.ssh/authorized_keys
 
 Commands used:
+``` bash
 nano ~/.ssh/authorized_keys
+```
 
 Permissions verified:
+``` bash
 chmod 700 ~/.ssh
 chmod 600 ~/.ssh/authorized_keys
+```
 
 Result:
 Multiple systems can securely access the Raspberry Pi using their respective SSH keys.
@@ -93,7 +101,9 @@ PubkeyAuthentication yes
 MaxAuthTries 3
 
 Command:
+``` bash
 sudo nano /etc/ssh/sshd_config
+```
 
 Applied changes:
 sudo systemctl restart ssh

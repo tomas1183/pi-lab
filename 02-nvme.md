@@ -8,7 +8,9 @@ Install Raspberry Pi OS Lite (64-bit) directly to NVMe using CLI tools for lab d
 ## Step 2 - Download OS
 
 Command:
+``` bash
 wget https://downloads.raspberrypi.com/raspios_lite_arm64_latest -O raspios.img.xz
+```
 
 Result:
 Downloading OS image...
@@ -16,7 +18,9 @@ Downloading OS image...
 ## Step 3 - Extract OS
 
 Command:
+``` bash
 unxz raspios.img.xz
+```
 
 Result:
 Image extracted successfully to raspios.img
@@ -24,7 +28,9 @@ Image extracted successfully to raspios.img
 ## Step 4 - Write OS to NVMe
 
 Command:
+``` bash
 sudo dd if=raspios.img of=/dev/nvme0n1 bs=4M status=progress conv=fsync
+```
 
 Result:
 OS successfully written to NVMe
@@ -36,13 +42,19 @@ Notes:
 ## Step 5 - Prepare NVMe for first boot
 
 Mounted boot partition:
+``` bash
 sudo mount /dev/nvme0n1p1 /mnt
+```
 
 Enabled SSH:
+``` bash
 sudo touch /mnt/ssh
+```
 
 Unmounted partition:
+``` bash
 sudo umount /mnt
+```
 
 Result:
 SSH was enabled for the first boot of the NVMe-based system.
@@ -101,7 +113,9 @@ Successfully logged in locally and enabled SSH access for the new user.
 ## Step 6 - Verify NVMe Boot
 
 Command:
+``` bash
 lsblk
+```
 
 Result:
 nvme0n1p2 mounted as root (/)

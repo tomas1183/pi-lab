@@ -8,7 +8,7 @@ Pi-hole and Unbound DNS stack.
 - NVMe boot configuration
 - SSH key-based authentication
 - Docker + Portainer container platform
-- Pi-hole DNS filtering
+- Pi-hole DNS filtering with DHCP
 - Unbound recursive DNS resolver
 - Backup and recovery strategy
 

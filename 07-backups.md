@@ -21,7 +21,9 @@ Includes (but not limited to):
 ## Manual Backup
 
 Command:
+``` bash
 sudo tar -czvf pihole-backup-$(date +%F).tar.gz ~/containers/pihole
+```
 
 Result:
 Creates a compressed backup archive in the current directory.
@@ -49,13 +51,19 @@ Ensure correct backup file is selected before extraction to avoid overwriting va
 Steps:
 
 1. Stop containers:
+``` bash
 docker stop pihole unbound || true
+```
 
 2. (Optional but recommended) Remove existing configuration:
+``` bash
 sudo rm -rf ~/containers/pihole
+```
 
 3. Extract backup:
+``` bash
 sudo tar -xzvf pihole-backup-YYYY-MM-DD.tar.gz -C ~
+```
 
 4. Redeploy Docker stack via Portainer
 
