@@ -1,17 +1,19 @@
 # Raspberry Pi Homelab - Pi-hole + Unbound
 
 ## Overview
-This project documents the setup of a Raspberry Pi 5 running a containerized
-Pi-hole and Unbound DNS stack.
+This project documents the setup of a Raspberry Pi 5, starting from a
+containerized Pi-hole and Unbound DNS stack and growing into a broader
+homelab: network segmentation with a zone-based firewall, a reverse proxy,
+automated backups, and ~20 containerized services in total.
 
 ## Features
 - NVMe boot configuration
 - SSH key-based authentication
-- Docker + Portainer container platform
-- Pi-hole DNS filtering with DHCP
-- Unbound recursive DNS resolver
-- Backup and recovery strategy
+- Docker + Portainer container platform (~20 services)
+- Pi-hole DNS filtering with DHCP, Unbound recursive DNS resolver
 - VLAN segmentation with a zone-based firewall (UniFi)
+- Reverse proxy with friendly internal hostnames (nginx-proxy-manager)
+- Automated, encrypted, multi-destination backups (Duplicati)
 
 ## Documentation
 - 01-hardware.md

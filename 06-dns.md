@@ -119,6 +119,8 @@ Result:
 2. Enabled DHCP server within Pi-hole settings.
 3. Configured static reservations for core infrastructure (.1 - .9) and fixed workstations (.10 - .99).
 
+**Update — router since replaced (see `04-network.md`):** the Orbi was later replaced by a UniFi Dream Router 7, which also introduced VLAN segmentation (see `08-vlan-segmentation.md`). Pi-hole remains the DHCP authority for the main Internal LAN only — the DHCP migration described above still applies there. The newer VLANs (IoT, and any added since) are handled by the router's own DHCP server instead, with Pi-hole set only as their DNS resolver, not their DHCP source. This was a deliberate choice, not an oversight: there's no benefit to Pi-hole tracking hostnames for lower-trust networks it doesn't otherwise manage.
+
 ## Step 5 - DNS Validation (Local)
 
 Command:
@@ -170,26 +172,30 @@ DHCP Server confirmed as 192.168.1.38.
 
 ## Step 8 - Blocklist Configuration
 
-Configured lists:
+**Current lists (updated as smart-TV/streaming devices were added to the network):**
 
-- StevenBlack hosts
-- OISD (https://big.oisd.nl)
-- AdGuard DNS filter
+- Hagezi Pro (general-purpose ad/tracker/malware blocklist)
+- Perflyst Smart TV Blocklist + regex companion list
+- Perflyst Amazon Fire TV Blocklist
+- HaGeZi Samsung Native Tracker list
 
 Action:
 Updated gravity database.
 
 Result:
-Enhanced ad and tracker blocking across the network.
+Enhanced ad and tracker blocking across the network, with dedicated lists targeting smart-TV/streaming-device telemetry specifically (see Media-Devices group below) rather than relying on general-purpose lists alone.
 
 ---
 
 ## Step 9 - Identity & Group Management
 
-**Groups Configured:**
-- **Computers:** Balanced blocking for workstations (Hyte-Assassin).
-- **IoT:** Aggressive telemetry blocking for SmartThings and smart devices.
-- **Infrastructure:** No blocking for the Orbi Satellite and Printer to ensure stability.
+**Groups actually configured (current):**
+- **Internal-LAN:** assigned by subnet (`192.168.1.0/24`) — standard blocking for trusted workstations.
+- **IoT-Network:** assigned by subnet (`192.168.10.0/26`) — the IoT VLAN as a whole.
+- **Infrastructure:** the Pi itself and the household printer — excluded from aggressive blocking to avoid breaking anything these depend on.
+- **Media-Devices:** individual smart TVs and an Amazon Fire TV Stick — aggressive blocking via the Perflyst/HaGeZi lists above, since these devices are especially chatty with ad/telemetry domains.
+
+Group names were updated from an earlier, more generic scheme ("Computers"/"IoT"/"Infrastructure") to better match the household's actual device mix once multiple smart TVs needed their own dedicated blocking tier.
 
 ---
 
