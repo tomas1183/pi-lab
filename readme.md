@@ -17,13 +17,25 @@ automated backups, and ~20 containerized services in total.
 - Secrets management and public-exposure review
 
 ## Documentation
+
+**Hardware & OS**
 - 01-hardware.md
 - 02-nvme.md
+
+**Access & Security**
 - 03-ssh.md
+- 09-secrets-hygiene.md
+
+**Networking**
 - 04-network.md
+- 08-vlan-segmentation.md
+- 10-reverse-proxy-fqdns.md
+- 11-wan-troubleshooting.md
+- 12-wifi-rf-troubleshooting.md
+
+**Platform & Services**
 - 05-docker.md
 - 06-dns.md
+
+**Backups**
 - 07-backups.md
-- 08-vlan-segmentation.md
-- 09-secrets-hygiene.md
-- 10-reverse-proxy-fqdns.md
