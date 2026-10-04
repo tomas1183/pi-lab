@@ -14,6 +14,7 @@ automated backups, and ~20 containerized services in total.
 - VLAN segmentation with a zone-based firewall (UniFi)
 - Reverse proxy with friendly internal hostnames (nginx-proxy-manager)
 - Automated, encrypted, multi-destination backups (Duplicati)
+- Secrets management and public-exposure review
 
 ## Documentation
 - 01-hardware.md
@@ -24,3 +25,4 @@ automated backups, and ~20 containerized services in total.
 - 06-dns.md
 - 07-backups.md
 - 08-vlan-segmentation.md
+- 09-secrets-hygiene.md
