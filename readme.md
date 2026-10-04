@@ -15,6 +15,7 @@ automated backups, and ~20 containerized services in total.
 - Reverse proxy with friendly internal hostnames (nginx-proxy-manager)
 - Automated, encrypted, multi-destination backups (Duplicati)
 - Secrets management and public-exposure review
+- Monitoring and alerting (Uptime Kuma, Glances)
 
 ## Documentation
 
@@ -39,3 +40,6 @@ automated backups, and ~20 containerized services in total.
 
 **Backups**
 - 07-backups.md
+
+**Monitoring**
+- 13-monitoring.md
