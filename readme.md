@@ -11,6 +11,7 @@ Pi-hole and Unbound DNS stack.
 - Pi-hole DNS filtering with DHCP
 - Unbound recursive DNS resolver
 - Backup and recovery strategy
+- VLAN segmentation with a zone-based firewall (UniFi)
 
 ## Documentation
 - 01-hardware.md
@@ -20,3 +21,4 @@ Pi-hole and Unbound DNS stack.
 - 05-docker.md
 - 06-dns.md
 - 07-backups.md
+- 08-vlan-segmentation.md
