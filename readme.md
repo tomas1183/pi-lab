@@ -26,3 +26,4 @@ automated backups, and ~20 containerized services in total.
 - 07-backups.md
 - 08-vlan-segmentation.md
 - 09-secrets-hygiene.md
+- 10-reverse-proxy-fqdns.md
