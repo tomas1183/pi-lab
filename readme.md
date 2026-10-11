@@ -4,7 +4,20 @@
 This project documents the setup of a Raspberry Pi 5, starting from a
 containerized Pi-hole and Unbound DNS stack and growing into a broader
 homelab: network segmentation with a zone-based firewall, a reverse proxy,
-automated backups, and ~20 containerized services in total.
+automated backups, a dedicated Windows Server identity lab, and ~20
+containerized services in total.
+
+## About / Background
+This homelab doubles as hands-on practice tied to an ongoing IT
+certification path. Currently held: **CompTIA A+, Network+, Security+,
+Cloud+**, **LPI Linux Essentials**, **AWS Certified Cloud Practitioner**,
+**ITIL 4 Foundations**, **Microsoft AZ-900 (Azure Fundamentals)**, and a
+**BSIT degree from Western Governors University**. Currently in progress:
+**AZ-104 (Azure Administrator)**, with **SC-300 (Identity and Access
+Administrator)** planned next — the dedicated Windows Server/Active
+Directory identity lab documented here exists specifically to get real
+hands-on practice for that cert path, not just pass an exam from theory
+alone.
 
 ## Features
 - NVMe boot configuration
@@ -16,6 +29,7 @@ automated backups, and ~20 containerized services in total.
 - Automated, encrypted, multi-destination backups (Duplicati)
 - Secrets management and public-exposure review
 - Monitoring and alerting (Uptime Kuma, Glances)
+- Dedicated Windows Server identity lab (AD DS, VLAN-isolated)
 
 ## Documentation
 
@@ -43,3 +57,6 @@ automated backups, and ~20 containerized services in total.
 
 **Monitoring**
 - 13-monitoring.md
+
+**Identity Lab**
+- 14-identity-lab-addds.md
