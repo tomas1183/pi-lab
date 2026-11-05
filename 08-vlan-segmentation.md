@@ -62,6 +62,35 @@ The lab server needed to physically connect through an existing unmanaged switch
 
 ---
 
+---
+
+## Case Study: Diagnosing a Missing Firewall Path (Internal → IoT)
+
+### Goal
+Reach a device on the IoT VLAN from a workstation on the Internal LAN for a one-off management task (connecting a debugging tool to a smart TV). This direction of traffic had never been exercised before — every existing cross-zone rule on this network was built for the *opposite* direction (an IoT device initiating contact with something on Internal LAN, e.g. DNS or casting).
+
+### Symptom
+A direct TCP connection attempt from a LAN workstation to the device's port timed out — no response, no explicit rejection, just silence. Confirmed the target port was correct and the service itself was reachable from other IoT-VLAN clients, ruling out the device as the problem.
+
+### Investigation
+Rather than assume the zone-based firewall's default-deny was simply "working as intended" and stop there, pulled the actual policy set for the Internal→IoT zone pair to see exactly what existed:
+- A predefined, system-level **Block All Traffic** catch-all (always present as the last-resort rule for any zone pair with no explicit allow)
+- One narrow **"(Return)" rule** — but on inspection, this covers only *reply* traffic for connections the IoT device itself initiated (e.g. its DNS lookups back to the LAN), not new connections initiated from the LAN
+
+The key finding: **every existing cross-zone exception on this network allows IoT-initiated traffic back to Internal LAN — none of them allow Internal LAN to open a *new* connection into IoT.** That asymmetry had simply never been tested before, because nothing had ever needed to reach into the IoT VLAN from the trusted side.
+
+### Fix
+Added one narrow, purpose-specific rule rather than loosening the zone pair generally: Internal (any source) → IoT, scoped to the single destination IP and port actually needed, TCP only, with its logging temporarily enabled just long enough to confirm the new rule was actually the one being matched (17 hits, confirmed) before turning logging back off to match the quiet style of every other rule on this network.
+
+### Lessons Learned
+
+- **A zone-based "default deny" firewall isn't automatically symmetric.** Confirming that Zone A can reach Zone B tells you nothing about whether Zone B can reach Zone A — each direction is its own independent rule set, and an untested direction should be assumed blocked until proven otherwise, not assumed to "probably just work" because the opposite direction does.
+- **"(Return)" rules are easy to misread as general two-way access.** A rule named for a specific existing exception (like a DNS allow) often has an auto-generated companion in the reverse direction — but that companion is scoped to *replying to that same connection*, not a blanket allow for new traffic.
+- **A silent timeout, not an explicit rejection, is itself a diagnostic clue.** A dropped connection (no response at all) points at a firewall-level block; an immediate refusal would have pointed somewhere else entirely (e.g. the service not actually listening). Reading the *shape* of the failure narrowed the search before touching any configuration.
+- **Add the narrowest exception that solves the actual need, not the most convenient one.** A single IP+port+protocol rule closes the gap without reopening the zone pair generally — the same "narrowest possible exception" principle as the HomeLab management-access rules above.
+
+---
+
 ## Lessons Learned
 
 - **Match zone names to intent, not convenience.** Reusing a zone just because it happens to be unused (like DMZ) can create a naming trap for future changes, even if nothing is actually misconfigured today.
