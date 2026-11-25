@@ -13,11 +13,11 @@ certification path. Currently held: **CompTIA A+, Network+, Security+,
 Cloud+**, **LPI Linux Essentials**, **AWS Certified Cloud Practitioner**,
 **ITIL 4 Foundations**, **Microsoft AZ-900 (Azure Fundamentals)**, and a
 **BSIT degree from Western Governors University**. Currently in progress:
-**AZ-104 (Azure Administrator)**, with **SC-300 (Identity and Access
-Administrator)** planned next — the dedicated Windows Server/Active
-Directory identity lab documented here exists specifically to get real
-hands-on practice for that cert path, not just pass an exam from theory
-alone.
+**SC-300 (Identity and Access Administrator)**, studied alongside
+hands-on labs — the dedicated Windows Server/Active Directory identity
+lab documented here, plus a Hyper-V domain lab and a Microsoft Entra
+tenant — so the material gets practiced for real, not just learned from
+theory alone.
 
 ## Features
 - NVMe boot configuration
@@ -26,9 +26,11 @@ alone.
 - Pi-hole DNS filtering with DHCP, Unbound recursive DNS resolver
 - VLAN segmentation with a zone-based firewall (UniFi)
 - Reverse proxy with friendly internal hostnames (nginx-proxy-manager)
-- Automated, encrypted, multi-destination backups (Duplicati)
+- Automated, encrypted, multi-destination backups (Duplicati): a separate
+  external disk plus offsite OneDrive, with a restore test and a mount watchdog
 - Secrets management and public-exposure review
-- Monitoring and alerting (Uptime Kuma, Glances)
+- Monitoring and alerting (Uptime Kuma, Glances), including a push-style
+  watchdog for the backup disk
 - Dedicated Windows Server identity lab (AD DS, VLAN-isolated)
 
 ## Documentation

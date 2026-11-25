@@ -10,7 +10,7 @@ A security-related container (a CrowdSec firewall bouncer) was discovered to hav
 
 ## Platform
 
-- **Uptime Kuma** — status monitoring and alerting, 13 monitors as of now, all feeding a shared notification channel.
+- **Uptime Kuma** — status monitoring and alerting, 15 monitors as of now, all feeding a shared notification channel.
 - **Glances** — live host/container resource monitoring (CPU, memory, per-container stats), no auth required for its own dashboard widget.
 
 ---
@@ -25,6 +25,7 @@ Kuma supports several monitor types, and picking the wrong one for a given servi
 | Ping | WAN/internet reachability | There's no HTTP endpoint that represents "is the internet up" |
 | TCP-Port | CrowdSec firewall bouncer | No web UI at all — just needs to confirm the port it listens on is actually open |
 | DNS | Full Pi-hole → Unbound resolution chain | Pi-hole's web UI being up doesn't prove DNS resolution actually works end-to-end; a DNS-type check that resolves a real domain through the resolver does |
+| Push | Backup-disk mount watchdog | There is nothing for Kuma to poll: the check has to run on the host and report in (see below) |
 | HTTP(s) - Keyword | Prowlarr, FlareSolverr | A plain 200 OK isn't enough — both have failure modes where the page loads fine but the actual function is broken, so the check also requires a specific keyword in the response body |
 
 ### Gotcha: a redirect can make a broken check pass
@@ -58,9 +59,23 @@ Fixed manually again, then closed the gap permanently: a small script that waits
 
 ---
 
+## Watchdog for a silent fallback: the backup disk
+
+The local backup disk is mounted with `nofail` (see `07-backups.md`), so a missing disk doesn't stop the Pi booting. That also means a missing disk produces no error: Duplicati would just write to the internal disk under the empty mount point. A normal monitor can't see that, because the container is up and the job reports success.
+
+A small script on the host runs from cron every 5 minutes and sends a heartbeat to a Kuma **Push** monitor, but only if all of these are true:
+- the disk is mounted at the expected path, matched by **filesystem UUID**, not just "something is mounted there";
+- the mount is **read-write** (ext4 remounts read-only after errors, which is as bad as missing);
+- the disk is **under 90% full**.
+
+Otherwise it reports "down" with the reason. Because it's a push monitor, a dead cron job or a dead Pi also alerts, since the heartbeat simply stops. It was tested three ways: a real "up", a simulated failure with a wrong UUID (Kuma showed it pending, then recovered), and a real "up" again. The push URL lives in a private file on the host with owner-only permissions and is not kept in this repo.
+
+---
+
 ## Lessons Learned
 
 - **A container reporting "running" and a container doing its job are two different claims.** Glances proved this concretely — fully "up," fully wrong, and completely silent about it.
 - **The specific technical reason a failure class exists (a long-held connection vs. a healthy daemon) is what makes it possible to predict exactly which other containers share the same risk**, rather than treating each incident as a one-off surprise.
 - **A monitor needs to test the specific thing that can quietly break, not just "does this respond."** A redirect-following HTTP check, a plain container-up check, and a keyword-less health check all would have missed a real failure in this stack at some point — the fix each time was matching the check type to the actual failure mode, not just adding more monitors.
+- **A setting that makes failure quiet needs a monitor that makes it loud.** `nofail` on the backup disk kept boots safe but hid a missing disk; the push-style watchdog is what turned that back into an alert.
 - **Manually fixing a recurring issue twice is the signal to automate it, not a reason to document the manual steps better.** The systemd unit removes the need for anyone to notice and intervene at all, which is strictly better than a well-documented manual fix for something that will keep recurring on a predictable trigger (every reboot).
